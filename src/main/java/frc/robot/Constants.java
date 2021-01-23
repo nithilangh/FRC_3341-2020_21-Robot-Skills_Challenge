@@ -21,5 +21,16 @@ public final class Constants {
         public static int rightBackTalonPort = 3;
     }
 
+    public static final class JoystickPorts{
+        public static final int ControllerPort = 0;
+    }
+
+    public static final class JoystickAxis{
+        public static final int LeftStickXAxis = 0;
+        public static final int LeftStickYAxis = 1;
+        public static final int RightStickXAxis = 2;
+        public static final int RightStickYAxis = 3;
+    }
+
 
 }
