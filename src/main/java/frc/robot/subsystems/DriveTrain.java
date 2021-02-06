@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
@@ -43,6 +45,13 @@ public class DriveTrain extends SubsystemBase {
     _leftDriveTalonMain.setSensorPhase(true);
     _rightDriveTalonMain.setSensorPhase(true);
     
+    /* Enable these two lines later during testing and see if there is any change in performance
+    _leftDriveTalonMain.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5);
+    _rightDriveTalonMain.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5);
+     */
+    _leftDriveTalonMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    _rightDriveTalonMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
     _diffDrive.setRightSideInverted(false);
 
   }
