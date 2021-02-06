@@ -4,52 +4,73 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMTalonSRX;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+
+
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
 
-  private final SpeedController m_leftMotorSpeedController = 
-      new SpeedControllerGroup(
-            new PWMTalonSRX(Constants.DrivePorts.leftFrontTalonPort), 
-            new PWMTalonSRX(Constants.DrivePorts.leftBackTalonPort)
-      );
+  WPI_TalonSRX _leftDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.leftDriveTalonMainPort);
+  WPI_TalonSRX _leftDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.leftDriveTalonFollowerPort);
+  WPI_TalonSRX _rightDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.rightDriveTalonMainPort);
+  WPI_TalonSRX _rightDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.rightDriveTalonFollowerPort);
 
-  private final SpeedController m_rightMotorSpeedController = 
-      new SpeedControllerGroup(
-        new PWMTalonSRX(Constants.DrivePorts.rightFrontTalonPort), 
-        new PWMTalonSRX(Constants.DrivePorts.rightBackTalonPort)
-      );
-
-  private final DifferentialDrive m_diffDrive = 
-      new DifferentialDrive(m_leftMotorSpeedController, m_rightMotorSpeedController);
-      
+  private final DifferentialDrive _diffDrive = 
+      new DifferentialDrive(_leftDriveTalonMain, _rightDriveTalonMain);
+    
   
 
-  public DriveTrain() {}
+  public DriveTrain() {
+    _leftDriveTalonMain.configFactoryDefault();
+    _leftDriveTalonFollower.configFactoryDefault();
+    _rightDriveTalonMain.configFactoryDefault();
+    _rightDriveTalonFollower.configFactoryDefault();
+
+    _leftDriveTalonFollower.follow(_leftDriveTalonMain);
+    _rightDriveTalonFollower.follow(_rightDriveTalonMain);
+
+    _leftDriveTalonMain.setInverted(false);
+    _rightDriveTalonMain.setInverted(true);
+    _leftDriveTalonFollower.setInverted(InvertType.FollowMaster);
+    _rightDriveTalonFollower.setInverted(InvertType.FollowMaster);
+
+    _leftDriveTalonMain.setSensorPhase(true);
+    _rightDriveTalonMain.setSensorPhase(true);
+    
+    _diffDrive.setRightSideInverted(false);
+
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
 
+  /* public static void initTalon(WPI_TalonSRX talon) {
+    talon.setNeutralMode(NeutralMode.Coast);
+    talon.neutralOutput();
+    talon.setSensorPhase(false);
+    talon.config
+  } */
+
   
   public void arcadeDrive(double speed, double turn) {
-    m_diffDrive.arcadeDrive(speed, turn);
+    _diffDrive.arcadeDrive(speed, turn);
   }
 
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
-    m_diffDrive.tankDrive(leftSpeed, rightSpeed);
+    _diffDrive.tankDrive(leftSpeed, rightSpeed);
   }
 
 
   public void stop() {
-    m_diffDrive.stopMotor();
+    _diffDrive.stopMotor();
   }
 }
