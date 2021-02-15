@@ -15,6 +15,9 @@ public class TankDrive extends CommandBase {
   private final DriveTrain m_driveTrain;
   private final Joystick m_joystick;
 
+  private double leftVal;
+  private double rightVal;
+
 
   public TankDrive(DriveTrain dt, Joystick js) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,8 +35,25 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    leftVal = (-1 * m_joystick.getRawAxis(Constants.JoystickAxis.LeftStickYAxis)) 
+              + m_joystick.getRawAxis(Constants.JoystickAxis.LeftStickXAxis);
+
+    rightVal = (-1 * m_joystick.getRawAxis(Constants.JoystickAxis.LeftStickYAxis)) 
+               - m_joystick.getRawAxis(Constants.JoystickAxis.LeftStickXAxis);
+
+    if(leftVal > 1) leftVal = 1;
+    if(leftVal < -1) leftVal = -1;
+    if(rightVal > 1) rightVal = 1;
+    if(rightVal < -1) rightVal = -1;
+
+    m_driveTrain.tankDrive(leftVal, rightVal);
+
+    /* This line is expecting two joystick inputs.
+       It is replaced with the single joystick drive.
     m_driveTrain.tankDrive(-m_joystick.getRawAxis(Constants.JoystickAxis.LeftStickYAxis),
                           -m_joystick.getRawAxis(Constants.JoystickAxis.RightStickYAxis));
+     */
   }
 
 
