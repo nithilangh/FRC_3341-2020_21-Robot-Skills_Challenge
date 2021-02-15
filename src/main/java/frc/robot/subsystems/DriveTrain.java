@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -18,10 +20,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
 
-  WPI_TalonSRX _leftDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.leftDriveTalonMainPort);
-  WPI_TalonSRX _leftDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.leftDriveTalonFollowerPort);
-  WPI_TalonSRX _rightDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.rightDriveTalonMainPort);
-  WPI_TalonSRX _rightDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.rightDriveTalonFollowerPort);
+  WPI_TalonSRX _leftDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.LeftDriveTalonMainPort);
+  WPI_TalonSRX _rightDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.RightDriveTalonMainPort);
+
+  /* enable these lines for follower talons
+  WPI_TalonSRX _leftDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.LeftDriveTalonFollowerPort);
+  WPI_TalonSRX _rightDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.RightDriveTalonFollowerPort);
+  */
 
   private final DifferentialDrive _diffDrive = 
       new DifferentialDrive(_leftDriveTalonMain, _rightDriveTalonMain);
@@ -30,21 +35,22 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain() {
     _leftDriveTalonMain.configFactoryDefault();
-    _leftDriveTalonFollower.configFactoryDefault();
     _rightDriveTalonMain.configFactoryDefault();
-    _rightDriveTalonFollower.configFactoryDefault();
 
-    _leftDriveTalonFollower.follow(_leftDriveTalonMain);
-    _rightDriveTalonFollower.follow(_rightDriveTalonMain);
+    
+    _leftDriveTalonMain.set(ControlMode.PercentOutput, 0);
+    _rightDriveTalonMain.set(ControlMode.PercentOutput, 0);
 
+    _leftDriveTalonMain.setNeutralMode(NeutralMode.Brake);
+    _rightDriveTalonMain.setNeutralMode(NeutralMode.Brake);
+
+    
     _leftDriveTalonMain.setInverted(false);
     _rightDriveTalonMain.setInverted(true);
-    _leftDriveTalonFollower.setInverted(InvertType.FollowMaster);
-    _rightDriveTalonFollower.setInverted(InvertType.FollowMaster);
 
     _leftDriveTalonMain.setSensorPhase(true);
     _rightDriveTalonMain.setSensorPhase(true);
-    
+
     /* Enable these two lines later during testing and see if there is any change in performance
     _leftDriveTalonMain.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5);
     _rightDriveTalonMain.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5);
@@ -52,6 +58,19 @@ public class DriveTrain extends SubsystemBase {
     _leftDriveTalonMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     _rightDriveTalonMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
+
+    /* enable these lines for follower talons
+    _leftDriveTalonFollower.configFactoryDefault();
+    _rightDriveTalonFollower.configFactoryDefault();
+
+    _leftDriveTalonFollower.follow(_leftDriveTalonMain);
+    _rightDriveTalonFollower.follow(_rightDriveTalonMain);
+
+    _leftDriveTalonFollower.setInverted(InvertType.FollowMaster);
+    _rightDriveTalonFollower.setInverted(InvertType.FollowMaster);
+    */
+    
+    
     _diffDrive.setRightSideInverted(false);
 
   }
