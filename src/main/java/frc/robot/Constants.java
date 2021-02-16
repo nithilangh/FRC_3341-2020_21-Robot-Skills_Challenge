@@ -14,22 +14,31 @@ package frc.robot;
  */
 public final class Constants {
 
-	public static final class DrivePorts {
+	public static final class DriveTrainPorts {
         public static int LeftDriveTalonMainPort = 0;
         public static int LeftDriveTalonFollowerPort = 1;
         public static int RightDriveTalonMainPort = 2;
         public static int RightDriveTalonFollowerPort = 3;
     }
 
-    public static final class JoystickPorts {
-        public static final int ControllerPort = 0;
+    public static final class DriverStation {
+
+        public static final class USBOrder {
+            public static final int Zero = 0;
+            public static final int One = 1;
+            public static final int Two = 2;
+            public static final int Three = 3;
+            public static final int Four = 4;
+            public static final int Five = 5;
+        }
+ 
     }
 
     public static final class JoystickAxis {
-        public static final int LeftStickXAxis = 0;
-        public static final int LeftStickYAxis = 1;
-        public static final int RightStickXAxis = 2;
-        public static final int RightStickYAxis = 3;
+        public static final int XAxis = 0;
+        public static final int YAxis = 1;
+        public static final int ZRotate = 2;
+        public static final int Slider = 3;
     }
 
     public static final class PIDIndex {

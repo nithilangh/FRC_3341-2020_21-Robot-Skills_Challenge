@@ -20,8 +20,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
 
-  WPI_TalonSRX _leftDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.LeftDriveTalonMainPort);
-  WPI_TalonSRX _rightDriveTalonMain = new WPI_TalonSRX(Constants.DrivePorts.RightDriveTalonMainPort);
+  WPI_TalonSRX _leftDriveTalonMain = new WPI_TalonSRX(Constants.DriveTrainPorts.LeftDriveTalonMainPort);
+  WPI_TalonSRX _rightDriveTalonMain = new WPI_TalonSRX(Constants.DriveTrainPorts.RightDriveTalonMainPort);
 
   /* enable these lines for follower talons
   WPI_TalonSRX _leftDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.LeftDriveTalonFollowerPort);
