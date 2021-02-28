@@ -36,8 +36,8 @@ public class TankDrive extends CommandBase {
   @Override
   public void execute() {
     
-    _driveTrain.tankDrive(-1 * _leftJoystick.getRawAxis(Constants.JoystickAxis.YAxis),
-                          -1 * _rightJoystick.getRawAxis(Constants.JoystickAxis.YAxis));
+    _driveTrain.tankDrive(-1 * _leftJoystick.getRawAxis(Constants.Joystick.JoystickAxis.YAxis),
+                          -1 * _rightJoystick.getRawAxis(Constants.Joystick.JoystickAxis.YAxis));
   
   }
 

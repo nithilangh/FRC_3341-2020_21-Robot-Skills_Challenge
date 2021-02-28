@@ -30,8 +30,8 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
 
-    _driveTrain.arcadeDrive((-1 * _joystick.getRawAxis(Constants.JoystickAxis.YAxis)), 
-                            _joystick.getRawAxis(Constants.JoystickAxis.XAxis));
+    _driveTrain.arcadeDrive((-1 * _joystick.getRawAxis(Constants.Joystick.JoystickAxis.YAxis)), 
+                            _joystick.getRawAxis(Constants.Joystick.JoystickAxis.XAxis));
   }
 
   // Called once the command ends or is interrupted.

@@ -40,7 +40,7 @@ public class RobotContainer {
     _arcadeDrive = new ArcadeDrive(_driveTrain, _leftJoystick);
     _tankDrive = new TankDrive(_driveTrain, _leftJoystick, _rightJoystick);
  
-    _driveTrain.setDefaultCommand(_arcadeDrive);
+    _driveTrain.setDefaultCommand(_tankDrive);
   }
 
   /**
