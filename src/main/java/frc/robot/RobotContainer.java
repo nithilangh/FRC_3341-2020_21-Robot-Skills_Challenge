@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
@@ -21,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain _driveTrain;
+  private final AHRS _ahrs;
   private final Joystick _leftJoystick;
   private final Joystick _rightJoystick;
 
@@ -33,6 +38,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     _driveTrain = new DriveTrain();
+    _ahrs = new AHRS(SPI.Port.kMXP);
 
     _leftJoystick = new Joystick(Constants.DriverStation.USBOrder.Zero);
     _rightJoystick = new Joystick(Constants.DriverStation.USBOrder.One);

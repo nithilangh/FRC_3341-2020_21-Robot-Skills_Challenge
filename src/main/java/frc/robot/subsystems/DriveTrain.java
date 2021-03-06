@@ -4,24 +4,27 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 
 
-public class DriveTrain extends SubsystemBase {
+public class DriveTrain extends SubsystemBase {  
   /** Creates a new DriveTrain. */
-
   WPI_TalonSRX _leftDriveTalonMain = new WPI_TalonSRX(Constants.DriveTrainPorts.LeftDriveTalonMainPort);
   WPI_TalonSRX _rightDriveTalonMain = new WPI_TalonSRX(Constants.DriveTrainPorts.RightDriveTalonMainPort);
+
+  AHRS _ahrs = new AHRS(SPI.Port.kMXP);
 
   /* enable these lines for follower talons
   WPI_TalonSRX _leftDriveTalonFollower = new WPI_TalonSRX(Constants.DrivePorts.LeftDriveTalonFollowerPort);
@@ -30,13 +33,11 @@ public class DriveTrain extends SubsystemBase {
 
   private final DifferentialDrive _diffDrive = 
       new DifferentialDrive(_leftDriveTalonMain, _rightDriveTalonMain);
-    
-  
 
+    
   public DriveTrain() {
     _leftDriveTalonMain.configFactoryDefault();
     _rightDriveTalonMain.configFactoryDefault();
-
     
     _leftDriveTalonMain.set(ControlMode.PercentOutput, 0);
     _rightDriveTalonMain.set(ControlMode.PercentOutput, 0);
@@ -95,6 +96,20 @@ public class DriveTrain extends SubsystemBase {
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
     _diffDrive.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  public Rotation2d getRotation2d() {
+    return _ahrs.getRotation2d();
+  }
+
+  public double getLeftDistance() {
+    return  (_leftDriveTalonMain.getSelectedSensorPosition() * Constants.Chassis.Wheelcircumference_M
+    / Constants.Encoder.PulsesPerRev);
+  }
+
+  public double getRightDistance() {
+    return (_rightDriveTalonMain.getSelectedSensorPosition() * Constants.Chassis.Wheelcircumference_M
+           / Constants.Encoder.PulsesPerRev);
   }
 
 
